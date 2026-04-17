@@ -1,0 +1,163 @@
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f7f5f2;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #fa551e;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff8c19;
+}
+
+/* Hide scrollbar for carousel */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+    background-color: #fa551e;
+    color: white;
+}
+
+/* Focus ring customization */
+*:focus-visible {
+    outline: 2px solid #fa551e;
+    outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+    }
+    25% {
+        transform: translateY(-20px) translateX(10px);
+    }
+    50% {
+        transform: translateY(-10px) translateX(-10px);
+    }
+    75% {
+        transform: translateY(-15px) translateX(5px);
+    }
+}
+
+@keyframes pulse-slow {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 3s ease infinite;
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Button hover effects */
+button, .button {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover, .button:hover {
+    transform: translateY(-2px);
+}
+
+/* Image hover effects */
+img {
+    transition: transform 0.3s ease;
+}
+
+/* Card hover effects */
+.card-hover {
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.card-hover:hover {
+    box-shadow: 0 20px 40px rgba(250, 85, 30, 0.15);
+    transform: translateY(-5px);
+}
+
+
+/* Slideshow animation for Our Story */
+@keyframes slideshow {
+    0% { opacity: 0; transform: scale(1.05); }
+    2% { opacity: 1; transform: scale(1); }
+    10.5% { opacity: 1; transform: scale(1); }
+    12.5% { opacity: 0; transform: scale(1.02); }
+    100% { opacity: 0; }
+}
+
+/* Auto-scroll carousel for Our World */
+@keyframes autoScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Auto-scroll for Brands marquee */
+@keyframes autoScrollBrands {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
