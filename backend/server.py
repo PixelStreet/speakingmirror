@@ -4,6 +4,9 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List
@@ -86,12 +89,54 @@ async def get_status_checks() -> List[StatusCheck]:
     
     return status_checks
 
+def send_email_notification(contact: ContactSubmission):
+    smtp_host = os.environ.get('SMTP_HOST', 'smtp.gmail.com')
+    smtp_port = int(os.environ.get('SMTP_PORT', '587'))
+    smtp_user = os.environ.get('SMTP_USER', '')
+    smtp_pass = os.environ.get('SMTP_PASS', '')
+    notify_email = os.environ.get('NOTIFY_EMAIL', 'joydeep@speakingmirror.in')
+
+    if not smtp_user or not smtp_pass:
+        logger.warning("SMTP credentials not set, skipping email notification")
+        return
+
+    msg = MIMEMultipart()
+    msg['From'] = smtp_user
+    msg['To'] = notify_email
+    msg['Subject'] = f"New Contact Form Submission from {contact.name}"
+
+    body = f"""
+New contact form submission received:
+
+Name: {contact.name}
+Email: {contact.email}
+Phone: {contact.phone or 'Not provided'}
+Company: {contact.company or 'Not provided'}
+Service: {contact.service or 'Not specified'}
+Message:
+{contact.message}
+
+Submitted at: {contact.timestamp}
+    """
+    msg.attach(MIMEText(body, 'plain'))
+
+    try:
+        with smtplib.SMTP(smtp_host, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_user, smtp_pass)
+            server.send_message(msg)
+        logger.info(f"Email notification sent to {notify_email}")
+    except Exception as e:
+        logger.error(f"Failed to send email: {e}")
+
+
 @api_router.post("/contact", response_model=ContactSubmission)
 async def submit_contact(input: ContactSubmissionCreate) -> ContactSubmission:
     contact_obj = ContactSubmission(**input.model_dump())
     doc = contact_obj.model_dump()
     doc['timestamp'] = doc['timestamp'].isoformat()
     await db.contacts.insert_one(doc)
+    send_email_notification(contact_obj)
     return contact_obj
 
 # Include the router in the main app
