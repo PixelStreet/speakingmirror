@@ -106,7 +106,7 @@ const OurStory = () => {
                 className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth px-[8%]"
                 style={{ scrollBehavior: 'smooth' }}
               >
-                {officeImages.map((image) => (
+                {officeImages.map((image, index) => (
                   <div
                     key={image}
                     className="flex-shrink-0 w-[80%] h-[420px] snap-center rounded-2xl overflow-hidden shadow-xl transition-all duration-500"

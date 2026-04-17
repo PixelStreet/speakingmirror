@@ -260,7 +260,7 @@ const Contact = () => {
               {/* Office Locations */}
               <div className="space-y-3">
                 <h3 className="text-xl font-bold text-[#1e1919]">Our Offices</h3>
-                {contactInfo.offices.map((office) => (
+                {contactInfo.offices.map((office, index) => (
                   <Card 
                     key={office.city} 
                     className="hover:shadow-lg transition-all hover:-translate-y-1 border-2 hover:border-[#fa551e] bg-white cursor-pointer"
